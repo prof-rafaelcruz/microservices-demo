@@ -33,7 +33,7 @@ app.post('/products', (req, res) => {
         return res.status(403).json({ error: 'Acesso negado. Apenas administradores podem acessar.' });
     };
 
-    const { name, email } = req.body;
+    const { name, price } = req.body;
 
     const newProduct = { id: PRODUCTS.length + 1, name, price };
     PRODUCTS.push(newProduct);

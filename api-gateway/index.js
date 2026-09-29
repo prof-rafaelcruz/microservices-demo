@@ -48,7 +48,7 @@ const authenticateToken = (req, res, next) => {
 };
 
 app.use((req, res, next)=>{
-    console.log(`[GATEWAY] ${new Date().toISOString()} | ${req.method} -> ${req-utl}`);
+    console.log(`[GATEWAY] ${new Date().toISOString()} | ${req.method} -> ${req.url}`);
     next();
 });
 
@@ -56,8 +56,8 @@ app.use('/auth', proxy(SERVICES.AUTH, {
     proxyReqPathResolver: (req) => `/auth${req.url}`
 }));
 
-app.use('products', authenticateToken, proxy(SERVICES.PRODUCTS, {
-    proxyReqPathResolver: (req) => `/products/${req.url}`,
+app.use('/products', authenticateToken, proxy(SERVICES.PRODUCTS, {
+    proxyReqPathResolver: (req) => `/products${req.url}`,
     proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
         proxyReqOpts.headers['x-user-id'] = srcReq.headers['x-user-id'];
         proxyReqOpts.headers['x-user-role'] = srcReq.headers['x-user-role'];
@@ -66,7 +66,7 @@ app.use('products', authenticateToken, proxy(SERVICES.PRODUCTS, {
 }));
 
 app.use((req, res) => {
-    res.status(404).json({error: 'Rota não encontrada no Qateway'});
+    res.status(404).json({error: 'Rota não encontrada no Gateway'});
 });
 
 app.listen(PORT, () => {
