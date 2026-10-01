@@ -16,8 +16,8 @@ const USERS = [
     {id: 'usr_2', email: 'user@empresa.com.br', password: 'password123', role: 'user'}
 ];
 
-app.post('auth/login', (req, res) => {
-    const {email, role} = req.body;
+app.post('/auth/login', (req, res) => {
+    const {email, password} = req.body;
 
     const user = USERS.find(u => u.email === email && u.password === password);
 
